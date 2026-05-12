@@ -11,5 +11,3 @@ ENV ZOO_SERVER_ID=1 \
     ZOO_ENABLE_PROMETHEUS_METRICS=yes \
     ZOO_PROMETHEUS_METRICS_PORT_NUMBER=9141 \
     ZOO_DATA_DIR=/bitnami/zookeeper
-
-VOLUME ["/bitnami/zookeeper"]
