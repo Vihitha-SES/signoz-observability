@@ -102,14 +102,16 @@ accordingly).
 
 | Setting | Value |
 |---|---|
-| Root Directory | `services/signoz` (or the repo root — see note) |
+| Root Directory | *(leave blank — repo root)* |
+| Dockerfile Path | `services/signoz/Dockerfile` |
 | Exposed port | `8080` |
 
-> **Note on Root Directory**: The `services/signoz/Dockerfile` uses `COPY . .`
-> from the repo root context (it copies Go source, frontend, templates).
-> Set Root Directory to **the repo root** and point the Dockerfile path to
-> `services/signoz/Dockerfile`.  Railway supports this via
-> **Settings → Build → Dockerfile Path**.
+> **Why no Root Directory?** The `services/signoz/Dockerfile` copies files from the
+> repo root (`go.mod`, `frontend/`, `templates/email`).  Setting Root Directory to
+> `services/signoz` restricts the Docker build context to that subdirectory and causes
+> `COPY` instructions to fail with "not found" errors.  Leave Root Directory **blank**
+> and set only the **Dockerfile Path** to `services/signoz/Dockerfile`.
+> In Railway: **Settings → Build → Dockerfile Path**.
 
 **Environment variables** (copy from `services/signoz/.env.example`):
 
