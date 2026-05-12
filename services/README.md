@@ -112,7 +112,7 @@ accordingly).
 > `COPY` instructions to fail with "not found" errors.  Leave Root Directory **blank**
 > and set only the **Dockerfile Path** to `services/signoz/Dockerfile`.
 > In Railway: **Settings → Build → Dockerfile Path**.
-
+i
 **Environment variables** (copy from `services/signoz/.env.example`):
 
 ```
