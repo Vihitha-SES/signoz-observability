@@ -29,7 +29,8 @@ WORKDIR /frontend
 
 RUN corepack enable
 
-COPY frontend/package.json frontend/yarn.lock ./
+COPY frontend/package.json frontend/yarn.lock frontend/i18-generate-hash.cjs ./
+COPY frontend/scripts/ ./scripts/
 RUN CI=true yarn install --frozen-lockfile --non-interactive
 
 COPY frontend/ .
