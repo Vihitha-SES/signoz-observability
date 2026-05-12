@@ -6,9 +6,9 @@
 #
 
 global:
-  # Set this to the public Railway URL for the signoz service.
+  # Default local URL. In Railway, override with SIGNOZ_GLOBAL_EXTERNAL_URL.
   # Example: https://signoz-production-xxxx.up.railway.app
-  external_url: ${SIGNOZ_EXTERNAL_URL:http://localhost:8080}
+  external_url: http://localhost:8080
 
 version:
   banner:

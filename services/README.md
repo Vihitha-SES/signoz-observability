@@ -117,7 +117,7 @@ i
 
 ```
 # Railway will give you this URL after first deploy
-SIGNOZ_EXTERNAL_URL=https://signoz-production-xxxx.up.railway.app
+SIGNOZ_GLOBAL_EXTERNAL_URL=https://signoz-production-xxxx.up.railway.app
 
 SIGNOZ_TELEMETRYSTORE_CLICKHOUSE_DSN=tcp://clickhouse.railway.internal:9000
 SIGNOZ_TOKENIZER_JWT_SECRET=change-me-to-strong-random-value
