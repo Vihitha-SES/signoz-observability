@@ -1,0 +1,104 @@
+##################### SigNoz Configuration (Railway-ready) #####################
+#
+# All values here can be overridden by environment variables.
+# Pattern: nested keys map to SIGNOZ_SECTION_KEY env vars.
+# Example: telemetrystore.clickhouse.dsn -> SIGNOZ_TELEMETRYSTORE_CLICKHOUSE_DSN
+#
+
+global:
+  # Set this to the public Railway URL for the signoz service.
+  # Example: https://signoz-production-xxxx.up.railway.app
+  external_url: ${SIGNOZ_EXTERNAL_URL:http://localhost:8080}
+
+version:
+  banner:
+    enabled: true
+
+instrumentation:
+  logs:
+    level: info
+  traces:
+    enabled: false
+  metrics:
+    enabled: true
+    readers:
+      pull:
+        exporter:
+          prometheus:
+            host: "0.0.0.0"
+            port: 9090
+
+web:
+  enabled: true
+  index: index.html
+  directory: /etc/signoz/web
+
+cache:
+  provider: memory
+  memory:
+    num_counters: 100000
+    max_cost: 67108864
+
+sqlstore:
+  provider: sqlite
+  max_open_conns: 100
+  sqlite:
+    path: /var/lib/signoz/signoz.db
+    mode: wal
+    busy_timeout: 10s
+    transaction_mode: deferred
+
+apiserver:
+  timeout:
+    default: 60s
+    max: 600s
+    excluded_routes:
+      - /api/v1/logs/tail
+      - /api/v3/logs/livetail
+  logging:
+    excluded_routes:
+      - /api/v1/health
+      - /api/v1/version
+      - /
+
+querier:
+  cache_ttl: 168h
+  flux_interval: 5m
+  max_concurrent_queries: 4
+
+telemetrystore:
+  max_idle_conns: 50
+  max_open_conns: 100
+  dial_timeout: 5s
+  provider: clickhouse
+  clickhouse:
+    # Override via: SIGNOZ_TELEMETRYSTORE_CLICKHOUSE_DSN=tcp://<clickhouse-host>:9000
+    dsn: tcp://localhost:9000
+    cluster: cluster
+    settings:
+      max_execution_time: 0
+      max_bytes_to_read: 0
+
+alertmanager:
+  provider: signoz
+  signoz:
+    poll_interval: 1m
+    external_url: http://localhost:8080
+    global:
+      resolve_timeout: 5m
+    route:
+      group_by: [alertname]
+      group_interval: 1m
+      group_wait: 1m
+      repeat_interval: 1h
+    alerts:
+      gc_interval: 30m
+    silences:
+      maintenance_interval: 15m
+      retention: 120h
+    nflog:
+      maintenance_interval: 15m
+      retention: 120h
+
+emailing:
+  enabled: false

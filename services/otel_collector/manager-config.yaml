@@ -1,0 +1,4 @@
+# OpAMP manager config — points the collector to the SigNoz backend WebSocket
+# Set SIGNOZ_OPAMP_ENDPOINT env var to your Railway SigNoz service WS URL.
+# Example: ws://signoz.railway.internal:4320/v1/opamp
+server_endpoint: ${env:SIGNOZ_OPAMP_ENDPOINT}

@@ -11,8 +11,16 @@ import (
 	"github.com/SigNoz/signoz/pkg/valuer"
 )
 
-const (
-	HTTPHostPort    = "0.0.0.0:8080" // Address to serve http (query service)
+var (
+	HTTPHostPort = func() string {
+		if p := os.Getenv("PORT"); p != "" {
+			return "0.0.0.0:" + p
+		}
+		if v := GetOrDefaultEnv("HTTP_HOST_PORT", ""); v != "" {
+			return v
+		}
+		return "0.0.0.0:8080"
+	}()
 	PrivateHostPort = "0.0.0.0:8085" // Address to server internal services like alert manager
 	OpAmpWsEndpoint = "0.0.0.0:4320" // address for opamp websocket
 )
