@@ -27,8 +27,10 @@ FROM node:20-alpine AS frontend-builder
 
 WORKDIR /frontend
 
-COPY frontend/package.json frontend/package-lock.json* ./
-RUN npm ci --legacy-peer-deps
+RUN corepack enable
+
+COPY frontend/package.json frontend/yarn.lock ./
+RUN CI=true yarn install --frozen-lockfile --non-interactive
 
 COPY frontend/ .
 RUN npm run build
