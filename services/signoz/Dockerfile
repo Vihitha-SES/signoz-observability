@@ -65,6 +65,4 @@ ENV SIGNOZ_SQLSTORE_SQLITE_PATH=/var/lib/signoz/signoz.db \
     SIGNOZ_ALERTMANAGER_PROVIDER=signoz \
     SIGNOZ_WEB_DIRECTORY=/etc/signoz/web
 
-VOLUME ["/var/lib/signoz"]
-
 ENTRYPOINT ["./signoz", "server", "--config", "/etc/signoz/config.yaml"]

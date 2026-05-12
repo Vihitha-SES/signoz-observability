@@ -8,7 +8,7 @@ Railway service by pointing **Root Directory** at the relevant folder.
 services/
   zookeeper/        ← deploy first
   clickhouse/       ← deploy second
-  otel_collector/   ← deploy third
+  signoz-otel-collector/   ← deploy third
   signoz/           ← deploy last
 ```
 
@@ -73,10 +73,10 @@ CLICKHOUSE_SKIP_USER_SETUP=1
 
 | Setting | Value |
 |---|---|
-| Root Directory | `services/otel_collector` |
+| Root Directory | `services/signoz-otel-collector` |
 | Exposed ports | `4317` (gRPC OTLP), `4318` (HTTP OTLP) |
 
-**Environment variables** (copy from `services/otel_collector/.env.example`):
+**Environment variables** (copy from `services/signoz-otel-collector/.env.example`):
 
 ```
 CLICKHOUSE_TRACES_DSN=tcp://clickhouse.railway.internal:9000/signoz_traces
@@ -93,7 +93,7 @@ LOW_CARDINAL_EXCEPTION_GROUPING=false
 OTEL_RESOURCE_ATTRIBUTES=host.name=signoz-host,os.type=linux
 ```
 
-Make sure you name this Railway service **otel-collector** (or adjust hostnames
+Make sure you name this Railway service **signoz-otel-collector** (or adjust hostnames
 accordingly).
 
 ---
@@ -134,7 +134,7 @@ manual port configuration is needed.
 |---|---|
 | `zookeeper` | `zookeeper.railway.internal` |
 | `clickhouse` | `clickhouse.railway.internal` |
-| `otel-collector` | `otel-collector.railway.internal` |
+| `signoz-otel-collector` | `signoz-otel-collector.railway.internal` |
 | `signoz` | `signoz.railway.internal` |
 
 > Railway private hostnames follow the pattern `<service-name>.railway.internal`.
@@ -160,7 +160,7 @@ Add Railway volumes to the following services:
 Point your instrumented applications at the OTEL Collector public URL:
 
 ```
-OTEL_EXPORTER_OTLP_ENDPOINT=https://otel-collector-production-xxxx.up.railway.app
+OTEL_EXPORTER_OTLP_ENDPOINT=https://signoz-otel-collector-production-xxxx.up.railway.app
 ```
 
 - gRPC OTLP → port `4317`
