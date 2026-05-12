@@ -34,7 +34,13 @@ COPY frontend/scripts/ ./scripts/
 RUN CI=true yarn install --frozen-lockfile --non-interactive
 
 COPY frontend/ .
-RUN npm run build
+
+# env.ts is gitignored (it's filled in locally) so we regenerate it here.
+# Values are placeholders; Vite's define block replaces them at bundle time
+# using VITE_FRONTEND_API_ENDPOINT / VITE_WEBSOCKET_API_ENDPOINT build args.
+RUN printf 'export const ENVIRONMENT = {\n\tbaseURL: process?.env?.FRONTEND_API_ENDPOINT || '"'"''"'"',\n\twsURL: process?.env?.WEBSOCKET_API_ENDPOINT || '"'"''"'"',\n};\n' > src/constants/env.ts
+
+RUN yarn build
 
 # ──────────────────────────────────────────────────────────
 # Stage 3: Final minimal runtime image
@@ -52,7 +58,7 @@ COPY --from=go-builder /app/signoz-bin /root/signoz
 COPY templates/email /root/templates
 
 # Copy built frontend
-COPY --from=frontend-builder /frontend/dist /etc/signoz/web
+COPY --from=frontend-builder /frontend/build /etc/signoz/web
 
 # Copy default config (can be overridden via env vars or volume mount)
 COPY services/signoz/config.yaml /etc/signoz/config.yaml
