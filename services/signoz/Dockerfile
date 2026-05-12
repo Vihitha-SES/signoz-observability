@@ -23,7 +23,7 @@ RUN CGO_ENABLED=0 GOOS=linux go build \
 # ──────────────────────────────────────────────────────────
 # Stage 2: Build the frontend
 # ──────────────────────────────────────────────────────────
-FROM node:20-alpine AS frontend-builder
+FROM node:22-alpine AS frontend-builder
 
 WORKDIR /frontend
 
